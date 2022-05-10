@@ -1,53 +1,56 @@
 package com.shaizambrovski.cognitohelper.controller;
 
+import com.google.api.client.auth.oauth2.TokenResponse;
 import com.shaizambrovski.cognitohelper.model.CognitoAppClientDTO;
-import com.shaizambrovski.cognitohelper.service.IAWSCognitoService;
+import com.shaizambrovski.cognitohelper.service.AWSCognitoService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
-
-import java.util.List;
 
 @Controller
 @RequestMapping(value = "/web/api")
 public class CognitoHelperController {
 
     @Autowired
-    private IAWSCognitoService awsCognitoService;
+    private AWSCognitoService awsCognitoService;
 
     @PostMapping(value = "/user_pools")
-    @ResponseBody
-    public void createUserPools() {
-        awsCognitoService.createUserPools();
+    @ResponseBody()
+    public String createUserPools(@RequestParam String userPoolName) {
+        return awsCognitoService.createUserPools(userPoolName);
     }
 
     @PostMapping(value = "/resource_server")
     @ResponseBody
-    public void createResourceServer() {
-        awsCognitoService.createResourceServer();
-    }
-
-    @GetMapping(value = "/user_pools")
-    @ResponseBody
-    public List<String> getUserPools() {
-        return awsCognitoService.getUserPools();
+    public void createResourceServer(@RequestParam String resourceIdentifier,
+                                     @RequestParam String resourceName,
+                                     @RequestParam String scopeName,
+                                     @RequestParam String scopeDescription,
+                                     @RequestParam String userPoolId) {
+        awsCognitoService.createResourceServer(resourceIdentifier, resourceName, scopeName, scopeDescription, userPoolId);
     }
 
     @PostMapping(value = "/app_client")
     @ResponseBody
-    public CognitoAppClientDTO createAppClient() {
-        return awsCognitoService.createAppClient();
+    public CognitoAppClientDTO createAppClient(@RequestParam String appClientName,
+                                               @RequestParam String resourceIdentifier,
+                                               @RequestParam String scopeName,
+                                               @RequestParam String userPoolId) {
+        return awsCognitoService.createAppClient(appClientName, resourceIdentifier, scopeName, userPoolId);
     }
 
     @PostMapping(value = "/domain")
     @ResponseBody
-    public void createDomain() {
-        awsCognitoService.createDomain();
+    public void createDomain(@RequestParam String domainName,
+                             @RequestParam String userPoolId) {
+        awsCognitoService.createDomain(domainName, userPoolId);
     }
 
-    @GetMapping(value = "/app_client_acess_token")
+    @PostMapping(value = "/access_token")
     @ResponseBody
-    public String generateAppClientAccessToken(@RequestParam(value = "client_id") String clientId) throws Exception {
-        return awsCognitoService.generateAccessToken(clientId);
+    public TokenResponse generateAppClientAccessToken(@RequestParam String url,
+                                                      @RequestParam String scope,
+                                                      @RequestBody CognitoAppClientDTO cognitoAppClientDTO) throws Exception {
+        return awsCognitoService.generateAccessToken(url, scope, cognitoAppClientDTO);
     }
 }

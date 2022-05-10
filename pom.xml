@@ -6,16 +6,18 @@
 		<groupId>org.springframework.boot</groupId>
 		<artifactId>spring-boot-starter-parent</artifactId>
 		<version>2.6.6</version>
-		<relativePath/> <!-- lookup parent from repository -->
+		<relativePath/>
 	</parent>
 	<groupId>com.shaizambrovski</groupId>
 	<artifactId>cognito-helper</artifactId>
 	<version>0.0.1-SNAPSHOT</version>
 	<name>cognito-helper</name>
-	<description>Demo project for Spring Boot</description>
+	<description>Demo project for Cognito API using Spring Boot app</description>
 	<properties>
 		<java.version>11</java.version>
 		<software.amazon.awssdk.version>2.17.136</software.amazon.awssdk.version>
+		<google.oauth.client.version>1.33.3</google.oauth.client.version>
+		<google.http.client.version>1.41.7</google.http.client.version>
 	</properties>
 
 	<dependencyManagement>
@@ -37,16 +39,17 @@
 		</dependency>
 		<dependency>
 			<groupId>software.amazon.awssdk</groupId>
-			<artifactId>cognitoidentity</artifactId>
-		</dependency>
-		<dependency>
-			<groupId>software.amazon.awssdk</groupId>
 			<artifactId>cognitoidentityprovider</artifactId>
 		</dependency>
 		<dependency>
-			<groupId>org.apache.httpcomponents</groupId>
-			<artifactId>httpclient</artifactId>
-			<version>4.5.13</version>
+			<groupId>com.google.oauth-client</groupId>
+			<artifactId>google-oauth-client</artifactId>
+			<version>${google.oauth.client.version}</version>
+		</dependency>
+		<dependency>
+			<groupId>com.google.http-client</groupId>
+			<artifactId>google-http-client</artifactId>
+			<version>${google.http.client.version}</version>
 		</dependency>
 
 
